@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ProtossComManagedClient": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

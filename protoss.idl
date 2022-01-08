@@ -1,0 +1,61 @@
+import "unknwn.idl";
+
+[object, uuid(59644217-3e52-4202-ba49-f473590cc61a)]
+interface IGameObject : IUnknown
+{
+    [propget]
+    HRESULT Name([out, retval] BSTR* name);
+
+    [propget]
+    HRESULT Minerals([out, retval]LONG* minerals);
+
+    [propget]
+    HRESULT BuildTime([out, retval]LONG* buildtime);
+}
+
+[object, uuid(C5F45CBC-4439-418C-A9F9-05AC67525E43)]
+interface INexus : IUnknown
+{
+    HRESULT CreateUnit(
+        [in]  BSTR unit_name,
+        [out, retval] IUnknown **ppUnk);
+}
+
+[object, uuid(246A22D5-CF02-44B2-BF09-AAB95A34E0CF)]
+interface IProbe : IUnknown
+{
+    HRESULT ConstructBuilding(
+        [in] BSTR building_name,
+        [out, retval] IUnknown **ppUnk);
+}
+
+[
+    uuid(0332a9ab-e3bb-4042-bc6a-b98aebd6532d),
+    version(1.0),
+    helpstring("Protoss 1.0 Type Library")
+    ]
+library ProtossLib
+{
+    importlib("stdole2.tlb");
+
+    interface INexus;
+    interface IProbe;
+
+    [
+        uuid(F5353C58-CFD9-4204-8D92-D274C7578B53),
+        helpstring("Nexus Class")
+        ]
+    coclass Nexus {
+        [default] interface INexus;
+        interface IGameObject;
+    }
+
+    [
+        uuid(EFF8970E-C50F-45E0-9284-291CE5A6F771),
+        helpstring("Probe Class")
+        ]
+    coclass Probe {
+        [default] interface IProbe;
+        interface IGameObject;
+    }
+}
