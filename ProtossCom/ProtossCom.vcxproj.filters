@@ -26,16 +26,22 @@
     <None Include="protoss.def">
       <Filter>Source Files</Filter>
     </None>
+    <None Include="..\protoss.tlb" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\protoss.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="protoss_c.h">
+    <ClInclude Include="protoss.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="factory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ProtossCom.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

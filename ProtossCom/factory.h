@@ -4,10 +4,9 @@
 #include <wil/com.h>
 
 template<typename T, typename IT>
-class ProtossObjectClassFactory : public IClassFactory
+struct ProtossObjectClassFactory final : public IClassFactory
 {
-public:
-	HRESULT __stdcall QueryInterface(REFIID riid, void** ppv) {
+	HRESULT __stdcall QueryInterface(REFIID riid, void** ppv) override {
 		if (ppv == nullptr) {
 			return E_POINTER;
 		}
@@ -20,11 +19,11 @@ public:
 		return E_NOINTERFACE;
 	}
 
-	ULONG __stdcall AddRef(void) { return 1; }
+	ULONG __stdcall AddRef(void) override { return 1; }
 
-	ULONG __stdcall Release(void) { return 1; }
+	ULONG __stdcall Release(void) override { return 1; }
 
-	HRESULT __stdcall CreateInstance(IUnknown* pUnkOuter, REFIID riid, void** ppv) {
+	HRESULT __stdcall CreateInstance(IUnknown* pUnkOuter, REFIID riid, void** ppv) override {
 		if (pUnkOuter) {
 			return CLASS_E_NOAGGREGATION;
 		}
@@ -41,7 +40,7 @@ public:
 		return S_OK;
 	}
 
-	HRESULT __stdcall LockServer(BOOL fLock) {
+	HRESULT __stdcall LockServer(BOOL fLock) override {
 		UNREFERENCED_PARAMETER(fLock);
 		return E_NOTIMPL;
 	}

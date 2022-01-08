@@ -2,7 +2,7 @@
 #include <iomanip>
 #include <string>
 
-#include "protoss_c.h"
+#include "protoss.h"
 
 std::ostream& operator<<(std::ostream& os, const GUID& guid) {
 	const auto prevflags = os.flags();

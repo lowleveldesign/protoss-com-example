@@ -1,6 +1,8 @@
 
 #include <array>
 #include <tuple>
+#include <filesystem>
+#include <format>
 
 #include <Windows.h>
 #include <ktmw32.h>
@@ -10,19 +12,20 @@
 #include <wil/result.h>
 
 #include "factory.h"
-#include "protoss_c.h"
+#include "protoss.h"
+#include "resource.h"
 
-HMODULE module_dll;
+std::wstring dll_path;
 
 STDAPI DllGetClassObject(REFCLSID rclsid, REFIID riid, LPVOID* ppv) {
 	if (rclsid != __uuidof(Nexus) && rclsid != __uuidof(Probe)) {
 		return CLASS_E_CLASSNOTAVAILABLE;
 	}
 	if (rclsid == __uuidof(Nexus)) {
-		static ProtossObjectClassFactory<Nexus, INexus> factory;
+		static ProtossObjectClassFactory<Nexus, INexus> factory{};
 		return factory.QueryInterface(riid, ppv);
 	} else if (rclsid == __uuidof(Probe)) {
-		static ProtossObjectClassFactory<Probe, IProbe> factory;
+		static ProtossObjectClassFactory<Probe, IProbe> factory{};
 		return factory.QueryInterface(riid, ppv);
 	}
 	return CLASS_E_CLASSNOTAVAILABLE;
@@ -49,14 +52,6 @@ std::array<std::tuple<std::wstring_view, std::wstring, std::wstring>, 2> coclass
 };
 
 STDAPI DllRegisterServer() {
-	auto get_dll_path = [](std::wstring& dll_path) {
-		wchar_t path[MAX_PATH];
-		DWORD len = ::GetModuleFileName(module_dll, path, _countof(path));
-		RETURN_LAST_ERROR_IF(len == MAX_PATH && path[len - 1] != '\0');
-		dll_path = path;
-		return S_OK;
-	};
-
 	auto create_reg_subkey_with_value = [](HANDLE transaction, HKEY regkey, std::wstring_view subkey_name, std::wstring_view subkey_value) {
 		wil::unique_hkey subkey{};
 		RETURN_IF_WIN32_ERROR(::RegCreateKeyTransacted(regkey, subkey_name.data(), 0, nullptr, REG_OPTION_NON_VOLATILE,
@@ -69,9 +64,6 @@ STDAPI DllRegisterServer() {
 
 	wil::unique_handle transaction{ ::CreateTransaction(nullptr, nullptr, TRANSACTION_DO_NOT_PROMOTE, 0, 0, INFINITE, nullptr) };
 	RETURN_LAST_ERROR_IF(!transaction.is_valid());
-
-	std::wstring dll_path{};
-	RETURN_IF_FAILED(get_dll_path(dll_path));
 
 	for (const auto& coclass : coclasses) {
 		auto name{ std::get<0>(coclass) };
@@ -131,15 +123,18 @@ STDAPI DllUnregisterServer() {
 	return S_OK;
 }
 
-BOOL APIENTRY DllMain(HMODULE hModule, DWORD reason, LPVOID)  {
-	switch (reason) {
-	case DLL_PROCESS_ATTACH:
-		module_dll = hModule;
-		::DisableThreadLibraryCalls(hModule);
-		break;
+BOOL APIENTRY DllMain(HMODULE hModule, DWORD reason, LPVOID) {
 
-	case DLL_PROCESS_DETACH:
-		break;
+	if (reason == DLL_PROCESS_ATTACH) {
+		::DisableThreadLibraryCalls(hModule);
+
+		wchar_t path[MAX_PATH];
+		DWORD len = ::GetModuleFileName(hModule, path, _countof(path));
+		if (len == MAX_PATH && path[len - 1] != '\0') {
+			LOG_LAST_ERROR();
+			return FALSE;
+		}
+		dll_path = path;
 	}
 	return TRUE;
 }

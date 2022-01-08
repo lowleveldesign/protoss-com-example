@@ -153,9 +153,6 @@
     <ClCompile Include="client.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\ProtossCom\protoss.h" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="..\protoss.tlb" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
