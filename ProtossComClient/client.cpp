@@ -34,7 +34,6 @@ void start_from_probe() {
 	wil::com_ptr_t<INexus> nexus{};
 	THROW_IF_FAILED(probe->ConstructBuilding(name.get(), nexus.put_unknown()));
 	THROW_IF_FAILED(show_game_unit_data(nexus.get()));
-
 }
 
 void start_from_nexus() {

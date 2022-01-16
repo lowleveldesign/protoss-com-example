@@ -34,8 +34,8 @@ public static class Program
     [STAThread]
     static void Main()
     {
-        StartingFromNexus();
         StartingFromProbe();
+        StartingFromNexus();
 
         // force release of the COM objects
         GC.Collect();
