@@ -18,13 +18,11 @@
 std::wstring dll_path;
 
 STDAPI DllGetClassObject(REFCLSID rclsid, REFIID riid, LPVOID* ppv) {
-	if (rclsid != __uuidof(Nexus) && rclsid != __uuidof(Probe)) {
-		return CLASS_E_CLASSNOTAVAILABLE;
-	}
 	if (rclsid == __uuidof(Nexus)) {
 		static ProtossObjectClassFactory<Nexus, INexus> factory{};
 		return factory.QueryInterface(riid, ppv);
-	} else if (rclsid == __uuidof(Probe)) {
+	}
+	if (rclsid == __uuidof(Probe)) {
 		static ProtossObjectClassFactory<Probe, IProbe> factory{};
 		return factory.QueryInterface(riid, ppv);
 	}
