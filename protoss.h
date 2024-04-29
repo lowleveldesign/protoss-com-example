@@ -3,11 +3,11 @@
 /* this ALWAYS GENERATED file contains the definitions for the interfaces */
 
 
- /* File created by MIDL compiler version 8.01.0622 */
+ /* File created by MIDL compiler version 8.01.0628 */
 /* at Tue Jan 19 04:14:07 2038
  */
 /* Compiler settings for protoss.idl:
-    Oicf, W1, Zp8, env=Win32 (32b run), target_arch=X86 8.01.0622 
+    Oicf, W1, Zp8, env=Win64 (32b run), target_arch=AMD64 8.01.0628 
     protocol : dce , ms_ext, c_ext, robust
     error checks: allocation ref bounds_check enum stub_data 
     VC __declspec() decoration level: 
@@ -16,7 +16,6 @@
 */
 /* @@MIDL_FILE_HEADING(  ) */
 
-#pragma warning( disable: 28251)
 #pragma warning( disable: 4049 )  /* more than 64k source lines */
 
 
@@ -42,6 +41,14 @@
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1020)
 #pragma once
+#endif
+
+#ifndef DECLSPEC_XFGVIRT
+#if defined(_CONTROL_FLOW_GUARD_XFG)
+#define DECLSPEC_XFGVIRT(base, func) __declspec(xfg_virtual(base, func))
+#else
+#define DECLSPEC_XFGVIRT(base, func)
+#endif
 #endif
 
 /* Forward Declarations */ 
@@ -146,26 +153,32 @@ EXTERN_C const IID IID_IGameObject;
     {
         BEGIN_INTERFACE
         
+        DECLSPEC_XFGVIRT(IUnknown, QueryInterface)
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             IGameObject * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
             _COM_Outptr_  void **ppvObject);
         
+        DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IGameObject * This);
         
+        DECLSPEC_XFGVIRT(IUnknown, Release)
         ULONG ( STDMETHODCALLTYPE *Release )( 
             IGameObject * This);
         
+        DECLSPEC_XFGVIRT(IGameObject, get_Name)
         /* [propget] */ HRESULT ( STDMETHODCALLTYPE *get_Name )( 
             IGameObject * This,
             /* [retval][out] */ BSTR *name);
         
+        DECLSPEC_XFGVIRT(IGameObject, get_Minerals)
         /* [propget] */ HRESULT ( STDMETHODCALLTYPE *get_Minerals )( 
             IGameObject * This,
             /* [retval][out] */ LONG *minerals);
         
+        DECLSPEC_XFGVIRT(IGameObject, get_BuildTime)
         /* [propget] */ HRESULT ( STDMETHODCALLTYPE *get_BuildTime )( 
             IGameObject * This,
             /* [retval][out] */ LONG *buildtime);
@@ -241,18 +254,22 @@ EXTERN_C const IID IID_INexus;
     {
         BEGIN_INTERFACE
         
+        DECLSPEC_XFGVIRT(IUnknown, QueryInterface)
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             INexus * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
             _COM_Outptr_  void **ppvObject);
         
+        DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             INexus * This);
         
+        DECLSPEC_XFGVIRT(IUnknown, Release)
         ULONG ( STDMETHODCALLTYPE *Release )( 
             INexus * This);
         
+        DECLSPEC_XFGVIRT(INexus, CreateUnit)
         HRESULT ( STDMETHODCALLTYPE *CreateUnit )( 
             INexus * This,
             /* [in] */ BSTR unit_name,
@@ -323,18 +340,22 @@ EXTERN_C const IID IID_IProbe;
     {
         BEGIN_INTERFACE
         
+        DECLSPEC_XFGVIRT(IUnknown, QueryInterface)
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             IProbe * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
             _COM_Outptr_  void **ppvObject);
         
+        DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IProbe * This);
         
+        DECLSPEC_XFGVIRT(IUnknown, Release)
         ULONG ( STDMETHODCALLTYPE *Release )( 
             IProbe * This);
         
+        DECLSPEC_XFGVIRT(IProbe, ConstructBuilding)
         HRESULT ( STDMETHODCALLTYPE *ConstructBuilding )( 
             IProbe * This,
             /* [in] */ BSTR building_name,

@@ -23,5 +23,6 @@
     <None Include="..\protoss.tlb">
       <Filter>Source Files</Filter>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>
